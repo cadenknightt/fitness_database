@@ -1,6 +1,6 @@
 
 # Fitness Tracking Database
-The Fitness Tracking Database prioritizes the analysis and management of stretching and exercise activities, including tracking when each activity was last performed by a user. It is designed to provide structured records of fitness-related data points, such as performed stretches, exercises, their repetitions and sets, and the recorded information about who performed these activities and when.
+The Fitness Tracking Database prioritizes the analysis and management of stretching and exercise activities, including tracking when each activity was last performed by a user. It is designed to provide structured records of fitness-related data points, such as available or performed stretches, exercises, their repetitions and sets, and the recorded information about who performed these activities and when.
 
 # Database Information
 
