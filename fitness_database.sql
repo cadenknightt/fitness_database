@@ -1,96 +1,96 @@
-CREATE TABLE Person (
-	ID SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
-    First_Name VARCHAR(12) NOT NULL,
-    Last_Name VARCHAR(12) NOT NULL,
-    Username VARCHAR(18) NOT NULL,
-    Password VARCHAR(30) NOT NULL,
-    Email VARCHAR(50) NOT NULL,
-    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (ID),
-    UNIQUE (ID)
+CREATE TABLE person (
+	id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    firstName VARCHAR(12) NOT NULL,
+    lastName VARCHAR(12) NOT NULL,
+    username VARCHAR(18) NOT NULL,
+    password VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE Person_Statistics (
-	Person_ID SMALLINT UNSIGNED NOT NULL,
-    Gender VARCHAR(6) NOT NULL,
-    Age SMALLINT UNSIGNED NOT NULL,
-    Height_Feet SMALLINT UNSIGNED NOT NULL,
-    Height_Inches SMALLINT UNSIGNED NOT NULL,
-    Weight SMALLINT UNSIGNED NOT NULL,
+CREATE TABLE personStatistics (
+	personID SMALLINT UNSIGNED NOT NULL,
+    gender VARCHAR(6) NOT NULL,
+    age SMALLINT UNSIGNED NOT NULL,
+    heightFeet SMALLINT UNSIGNED NOT NULL,
+    heightInches SMALLINT UNSIGNED NOT NULL,
+    weight SMALLINT UNSIGNED NOT NULL,
     BMI DECIMAL(3,1) NOT NULL,
-    Intensity_Level ENUM('Light', 'Moderate', 'Heavy') NOT NULL,
-    Last_Updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (Person_ID),
-    FOREIGN KEY (Person_ID) REFERENCES Person(ID)
+    intensityLevel ENUM('Light', 'Moderate', 'Heavy') NOT NULL,
+    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (personID),
+    FOREIGN KEY (personID) REFERENCES person(id)
 		ON DELETE CASCADE -- When ID is deleted in the parent table, it occurs also in this table.
         ON UPDATE CASCADE -- When ID in the parent table is updated, the value in this table also updates.
 );
 
-CREATE TABLE Activity (
-	ID SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
-    Name VARCHAR(35) NOT NULL,
-    Instructions TEXT NOT NULL,
-    PRIMARY KEY (ID)
+CREATE TABLE activity (
+	id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    name VARCHAR(35) NOT NULL,
+    instructions TEXT NOT NULL,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE Activity_Statistics (
-	ID SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
-    Activity_ID SMALLINT UNSIGNED NOT NULL,
-    Person_ID SMALLINT UNSIGNED NOT NULL,
-    Sets INT UNSIGNED NOT NULL,
-    Reps INT UNSIGNED NOT NULL,
-    Duration DECIMAL(5,2) NOT NULL,
-    Started_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Ended_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (Activity_ID) REFERENCES Activity(ID)
+CREATE TABLE activityStatistics (
+	id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    activityID SMALLINT UNSIGNED NOT NULL,
+    personID SMALLINT UNSIGNED NOT NULL,
+    sets INT UNSIGNED NOT NULL,
+    reps INT UNSIGNED NOT NULL,
+    duration DECIMAL(5,2) NOT NULL,
+    started TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ended TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (activityID) REFERENCES activity(id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Person_ID) REFERENCES Person(ID)
+    FOREIGN KEY (personID) REFERENCES person(id)
 		ON DELETE CASCADE 
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Stretch (
-	Activity_ID SMALLINT UNSIGNED NOT NULL,
-    Category ENUM('Static', 'Dynamic') NOT NULL,
-    PRIMARY KEY (Activity_ID),
-    FOREIGN KEY (Activity_ID) REFERENCES Activity(ID)
+CREATE TABLE stretch (
+	activityID SMALLINT UNSIGNED NOT NULL,
+    category ENUM('Static', 'Dynamic') NOT NULL,
+    target ENUM('Chest', 'Shoulder', 'Tricep', 'Neck', 'Back', 'Glute', 'Hamstring', 'Calf', 'Quadricep', 'Abs', 'Legs'),
+    PRIMARY KEY (activityID),
+    FOREIGN KEY (activityID) REFERENCES activity(id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Exercise (
-	Activity_ID SMALLINT UNSIGNED NOT NULL,
-    Category ENUM('Strength', 'Cardio') NOT NULL,
-    Primary_Muscle_Group ENUM('Chest', 'Shoulder', 'Tricep', 'Bicep', 'Back', 'Glute', 'Hamstring', 'Calf', 'Legs', 'Abs'),
-    PRIMARY KEY (Activity_ID),
-    FOREIGN KEY (Activity_ID) REFERENCES Activity(ID)
+CREATE TABLE exercise (
+	activityID SMALLINT UNSIGNED NOT NULL,
+    category ENUM('Strength', 'Cardio') NOT NULL,
+    target ENUM('Chest', 'Shoulder', 'Tricep', 'Bicep', 'Back', 'Glute', 'Hamstring', 'Calf', 'Legs', 'Abs'),
+    PRIMARY KEY (activityID),
+    FOREIGN KEY (activityID) REFERENCES activity(id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Exercise_Tips  (
-	ID INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    Exercise_ID SMALLINT UNSIGNED NOT NULL,
-    Tip TEXT NOT NULL,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (Exercise_ID) REFERENCES Exercise(Activity_ID)
+CREATE TABLE exerciseTips  (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    exerciseID SMALLINT UNSIGNED NOT NULL,
+    tip TEXT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (exerciseID) REFERENCES exercise(activityID)
 		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-INSERT INTO Person (First_Name, Last_Name, Username, Password, Email, Created_At)
+INSERT INTO person (firstName, lastName, username, password, email, created)
 VALUES ('Rodger', 'Evans', 'captainevans', 'sh3ildavenger!99', 'rodgerevans@gmail.com', '2024-09-28 11:11:39'),
 	('Daxton', 'Knight', 'daxtonlifts', 'braveKnight6!', 'daxtonevans@gmail.com', '2024-09-28 15:38:28'),
 	('Brandon', 'Brandt', 'whoisbrandon', 'fearlessRanger5!!', 'brandonbrandt@gmail.com', '2024-09-29 08:34:58');
     
-INSERT INTO Person_Statistics (Person_ID, Gender, Age, Height_Feet, Height_Inches, Weight, BMI, Intensity_Level, Last_Updated)
+INSERT INTO personStatistics (personID, gender, age, heightFeet, heightInches, weight, BMI, intensityLevel, updated)
 VALUES (1, 'Male', 25, 5, 9, 172, 21.5, 'Moderate', '2024-09-28 11:11:39'),
 	(2, 'Male', 22, 5, 10, 185, 22.1, 'Moderate', '2024-09-28 15:38:28'),
     (3, 'Male', 24, 5, 7, 176, 22.2, 'Heavy', '2024-09-29 08:34:58');
     
-INSERT INTO Activity (Name, Instructions)
+INSERT INTO activity (name, instructions)
 VALUES ('Bench Press', 'To perform bench press, lay inclined or flat on a bench. Start at your lower chest with wide grip on barbell or dumbells then push off until there is full arm extension. Then control the weight back down to the starting position.'),
 	('Plate Squeeze', 'To perform plate squeeze, hold and squeeze the weighted plate between hands at inner chest. Push plate distantly until your arms are fully extended in a controlling motion, focusing on contracting the chest as peak. Slowly bring the weight back to the starting position.'),
     ('Cable Chest Fly', 'To perform cable chest flyes, use a cable machine while standing center. Grasp the handles with arms extended out to sides at chest height. Bring the handles together in front of your chest in a wide arc, squeezing your chest muscles at peak contraction before returning to the starting position.'),
@@ -133,9 +133,11 @@ VALUES ('Bench Press', 'To perform bench press, lay inclined or flat on a bench.
     ('High Knees', 'Stand tall and alternate driving your knees up toward your chest, aiming for hip height or higher. Keep a fast pace and engage your core. Pump your arms as you lift your knees.'),
     ('Butt Kicks', 'Stand and jog in place, bringing your heels up toward your glutes with each step. Keep your torso upright and swing your arms naturally as you kick your heels up.'),
     ('Gate Hip Opener', 'Stand on one leg and lift the other knee up to hip height. Rotate the knee outward, then return to the starting position. Repeat on the other leg to "open the gate."'),
-    ('Jumping Jacks', 'Stand with feet together and arms at your sides. Jump while spreading your feet apart and raising your arms overhead. Jump again to return to the starting position, and repeat at a steady pace and good form.');
+    ('Jumping Jacks', 'Stand with feet together and arms at your sides. Jump while spreading your feet apart and raising your arms overhead. Jump again to return to the starting position, and repeat at a steady pace and good form.'),
+    ('Cobra Stretch', 'Lie face down with palms on the floor underneath the shoulders. Push your upper body upwards, arching your back while the hips are touching the ground. Hold this position for a few seconds.'),
+    ('Cat-Cow Stretch', 'Get into a tabletop position and slowly alternate between arching your back (cow pose) and rounding your spine (cat pose). Focus on the stretch in your abs and lower back, holding each position for a few seconds.');
     
-INSERT INTO Activity_Statistics (Activity_ID, Person_ID, Sets, Reps, Duration, Started_At, Ended_At)
+INSERT INTO activityStatistics (activityID, personID, sets, reps, duration, started, ended)
 VALUES (24, 2, 2, 1, 0.50, '2024-10-01 07:34:59', '2024-10-01 07:35:29'),
 	(25, 2, 1, 2, 0.25, '2024-10-01 07:36:11', '2024-10-01 07:37:26'),
     (28, 2, 2, 30, 0.50, '2024-10-01 07:37:40', '2024-10-01 07:38:10'),
@@ -149,29 +151,31 @@ VALUES (24, 2, 2, 1, 0.50, '2024-10-01 07:34:59', '2024-10-01 07:35:29'),
     (15, 3, 4, 8, 13.00, '2024-10-02 05:55:03', '2024-10-02 06:08:03'),
     (16, 3, 4, 12, 15.00, '2024-10-02 06:11:34', '2024-10-02 06:26:34');
     
-INSERT INTO Stretch (Activity_ID, Category)
-VALUES (24, 'Static'),
-	(25, 'Static'),
-    (26, 'Static'),
-    (27, 'Static'),
-    (28, 'Dynamic'),
-    (29, 'Static'),
-    (30, 'Dynamic'),
-    (31, 'Static'),
-    (32, 'Static'),
-    (33, 'Static'),
-    (34, 'Static'),
-    (35, 'Static'),
-    (36, 'Static'),
-    (37, 'Static'),
-    (38, 'Dynamic'),
-    (39, 'Dynamic'),
-    (40, 'Dynamic'),
-    (41, 'Dynamic'),
-    (42, 'Dynamic'),
-    (43, 'Dynamic');
+INSERT INTO stretch (activityID, category, target)
+VALUES (24, 'Static', 'Chest'),
+	(25, 'Static', 'Shoulder'),
+    (26, 'Static', 'Tricep'),
+    (27, 'Static', 'Hamstring'),
+    (28, 'Dynamic', 'Shoulder'),
+    (29, 'Static', 'Back'),
+    (30, 'Dynamic', 'Neck'),
+    (31, 'Static', 'Quadricep'),
+    (32, 'Static', 'Hamstring'),
+    (33, 'Static', 'Glute'),
+    (34, 'Static', 'Calf'),
+    (35, 'Static', 'Quadricep'),
+    (36, 'Static', 'Glute'),
+    (37, 'Static', 'Hamstring'),
+    (38, 'Dynamic', 'Glute'),
+    (39, 'Dynamic', 'Glute'),
+    (40, 'Dynamic', 'Quadricep'),
+    (41, 'Dynamic', 'Hamstring'),
+    (42, 'Dynamic', 'Glute'),
+    (43, 'Dynamic', 'Legs'),
+    (44, 'Static', 'Abs'),
+    (45, 'Static', 'Abs');
     
-INSERT INTO Exercise (Activity_ID, Category, Primary_Muscle_Group)
+INSERT INTO exercise (activityID, category, target)
 VALUES (1, 'Strength', 'Chest'),
 	(2, 'Strength', 'Chest'),
     (3, 'Strength', 'Chest'),
@@ -196,7 +200,7 @@ VALUES (1, 'Strength', 'Chest'),
     (22, 'Cardio', 'Legs'),
     (23, 'Cardio', 'Abs');
 
-INSERT INTO Exercise_Tips (Exercise_ID, Tip)
+INSERT INTO exerciseTips (exerciseID, tip)
 VALUES (1, 'Slightly arch your body so the weight load is on your chest rather than the shoulders.'),
 	(1, 'It should be a count of three until you lower the weight from full arm extension to chest contact to have more time under tension.'),
     (1, 'Use a wider than shoulder-width grip if your using a barbell so then you get more stretch in your chest.'),
