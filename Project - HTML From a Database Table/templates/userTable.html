@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+
+{% block title %}Person Table{% endblock %}
+
+{% block header%}Person Table{% endblock %}
+
+{% block content %}
+<div id="table-container">
+     <table id="tablestyle">
+          <tr>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Username</th>
+               <th>Password</th>
+               <th>Email</th>
+               <th>Created At</th>
+          </tr>
+          {% for row in collection %}
+          <tr>
+               <td>{{row[0]}}</td>
+               <td>{{row[1]}}</td>
+               <td>{{row[2]}}</td>
+               <td>{{row[3]}}</td>
+               <td>{{row[4]}}</td>
+               <td>{{row[5]}}</td>
+          </tr>
+          {% endfor %}
+     </table>
+</div>
+{% endblock %}
