@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+
+{% block title %}Input{% endblock %}
+
+{% block header%}Enter Information{% endblock %}
+
+{% block content %}
+<div id="input-container">
+     <form action="personTable.html" method="GET">
+          <label for="firstName" class="firstname">First Name</label><br>
+          <input class="textinput" type="text" name="firstName"><br>
+          <label for="lastName" class="lastname">Last Name</label><br>
+          <input class="textinput" type="text" name="lastName"><br>
+          <label for="Username" class="username">Username</label><br>
+          <input class="textinput" type="text" name="Username"><br>
+          <label for="Pasword" class="password">Password</label><br>
+          <input class="textinput" type="text" name="Password"><br>
+          <label for="Email" class="email">Email</label><br>
+          <input class="textinput" type="text" name="Email"><br>
+          <input id="submitbutton" type="submit" name="Submit" value="&#10003 Submit">
+     </form>
+</div>
+{% endblock %}

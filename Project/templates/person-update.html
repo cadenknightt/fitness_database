@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+
+{% block title %}Update{% endblock %}
+
+{% block header %}
+Updating Person
+{% endblock %}
+
+{% block content %}
+<div id="input-container">
+     <a id="returnlink" href="/personTable.html">&#8630; Return to table</a>
+     <form action="">
+          <input type="hidden" name="id" value="{{id}}">
+          <label for="firstName" class="firstname">First Name</label><br> 
+          <input type="text" name="firstName" value="{{existingFirst}}" class="textinput"><br>
+          <label for="lastName" class="lastname">Last Name</label><br> 
+          <input type="text" name="lastName" value="{{existingLast}}" class="textinput"><br>
+          <label for="Username" class="username">Username</label><br>
+          <input type="text" name="Username" value="{{existingUsername}}" class="textinput"><br>
+          <label for="Password" class="password">Password</label><br>
+          <input type="text" name="Password" value="{{existingPassword}}" class="textinput"><br>
+          <label for="Email" class="lastname">Email</label><br>
+          <input type="text" name="Email" value="{{existingEmail}}" class="textinput"><br>
+          <input id="submitbutton" type="submit" value="&#10003 Submit">
+        </form>
+</div>
+{% endblock %}

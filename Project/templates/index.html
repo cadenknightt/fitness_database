@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% block title %}Links{% endblock %}
+
+{% block header %}
+Navigation Descriptions
+{% endblock %}
+
+{% block content %}
+<div class="info-container">
+     <h2>Form</h2>
+     <p>Add a Person to the database by interacting with this form. If you open it, you will notice there are fields for first name, last name, username, password, and email which are all required fields. If you are looking to start or advance your fitness career with us, filling out this form is a prequisite.<br><br> <mark>WARNING:</mark> This webpage also defends against SQL injection attacks and we are constantly analyzing any suspicious activity at all times.</p>
+</div>
+<div class="info-container">
+     <h2>Person Table</h2>
+     <p>If your looking to analyze the people who are in the fitness database, this will display live data from the Person table taken from the database. You can also check if your submitted input on the Form page was recieved here. Additionally, options to edit the tables are possible on this page as you may edit or remove a record from the database only when the server is running.</p>
+</div>
+{% endblock %}
