@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+
+{% block title %}Equipment{% endblock %}
+
+{% block header%} {{ equipmentPageTitle }} {% endblock %}
+
+{% block content %}
+<div id="many-to-many-button-container">
+     <a class="manytomanytablelinks" href="/showPerson"><i class="fas fa-user" style="padding-right:15px;"></i> Show All People</a>
+     <a class="manytomanytablelinks" href="/showEquipment"><i class="fas fa-dumbbell" style="padding-right:15px;"></i> Show All Equipment</a>
+</div>
+<div class="addEquipment-container">
+     {% if otherEquipmentTypes %}
+     <form id="equipmentform">
+          <select class="equipmentdropdowninput" name="addEquipmentID">
+          <option>Choose Equipment To Add</option>
+          {% for equipment in otherEquipmentTypes %}
+          <option value='{{ equipment[0] }}'>{{equipment[1]}}</option>
+          {% endfor %}
+          </select>
+          <button type="submit" id="equipmentsubmitbutton" value="addEquipment">Add</button>
+          <input type="hidden" name="personID" value="{{ personID }}" />
+     </form>
+     {% endif %}
+</div>
+<div id="table-container">
+     <table id="manytablestyle">
+          <tr>
+               <th>ID</th>
+               <th>Item</th>
+               <th style="width: 450px;">Purpose</th>
+               <th>View</th>
+          </tr>
+          {% for row in equipmentTable %}
+          <tr>
+               <td>{{row[0]}}</td>
+               <td>{{row[1]}}</td>
+               <td style="text-align: left;">{{row[2]}}</td>
+               <td class="viewcolumn">
+                    <div>
+                         <a class="viewlink" href="/showPerson?equipmentID={{row[0]}}">Show People Using This</a>
+                    </div>
+               </td>
+          </tr>
+          {% endfor %}
+     </table>
+</div>
+{% endblock %}

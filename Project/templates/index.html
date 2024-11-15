@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 
-{% block title %}Links{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block header %}
 Navigation Descriptions
@@ -8,11 +8,13 @@ Navigation Descriptions
 
 {% block content %}
 <div class="info-container">
-     <h2>Form</h2>
-     <p>Add a Person to the database by interacting with this form. If you open it, you will notice there are fields for first name, last name, username, password, and email which are all required fields. If you are looking to start or advance your fitness career with us, filling out this form is a prequisite.<br><br> <mark>WARNING:</mark> This webpage also defends against SQL injection attacks and we are constantly analyzing any suspicious activity at all times.</p>
+     <h2>Person Statistics</h2>
+     <p>If your looking to analyze physical characteristics of the people who are in the fitness database, this will display live data from the Person Statistics table taken from the database. You can also check if your submitted input from the <b>Form</b> link was recieved here. Additionally, options to edit the tables are possible on this page as you may edit or remove a record from the database. If you are looking to track your personal metrics, this would be best place to update this information periodically to get accurate information, or in other cases, remove statisitcs of a person if they want to discontinue measuring their metrics.</p>
+     <h3>Form</h3>
+     <p>Add Statisitcs of a Person to the database by interacting with the form using a link that says <b>"Add Statisitcs for Person"</b> displayed above the table. If you open it, you will notice there are fields for gender, age, height, weight, BMI, and intensity level which are all required fields.<br><br> <mark>WARNING:</mark> This webpage also defends against SQL injection attacks and we are constantly analyzing any suspicious activity at all times.</p>
 </div>
 <div class="info-container">
-     <h2>Person Table</h2>
-     <p>If your looking to analyze the people who are in the fitness database, this will display live data from the Person table taken from the database. You can also check if your submitted input on the Form page was recieved here. Additionally, options to edit the tables are possible on this page as you may edit or remove a record from the database only when the server is running.</p>
+     <h2>Person and Equipment</h2>
+     <p>On this page, you can view both the Person and Equipment tables. You can start by selecting either the Person table or the Equipment table to display its contents. If you choose the Person table, you will see a list of people along with a View column. Clicking the link "See Current Equipment in the View column will show you the equipment preferences of that person and will display a form that will allow you to add equipment to a person. Alternatively, if you choose the Equipment table, in the View column, clickling the "See People Using This" link will show where you can discover which people currently possess a plethora of equipment.</p>
 </div>
 {% endblock %}

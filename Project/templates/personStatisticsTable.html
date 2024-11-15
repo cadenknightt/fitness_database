@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+
+{% block title %}Person Statistics Table{% endblock %}
+
+{% block header%}Person Statistics{% endblock %}
+
+{% block content %}
+<a id="formlink" href="/personStatisticsForm.html">Click Here to Add Statisitcs for Person</a>
+<div id="table-container">
+     <table id="tablestyle">
+          <tr>
+               <th>ID</th>
+               <th>Gender</th>
+               <th>Age</th>
+               <th>Height (in.)</th>
+               <th>Weight</th>
+               <th>BMI</th>
+               <th>Intensity Level</th>
+               <th>Updated</th>
+               <th>Edit</th>
+          </tr>
+          {% for row in personStatistics %}
+          <tr>
+               <td>{{row[0]}}</td>
+               <td>{{row[1]}}</td>
+               <td>{{row[2]}}</td>
+               <td>{{row[3]}}</td>
+               <td>{{row[4]}}</td>
+               <td>{{row[5]}}</td>
+               <td>{{row[6]}}</td>
+               <td>{{row[7]}}</td>
+               <td class="editcolumn">
+                    <div>
+                         <a href="/updatePersonStatistics?id={{row[0]}}" class="deluplink">Update</a>
+                         <a href="?delete=true&personStatistics_id={{row[0]}}" class="deluplink">Delete</a>
+                    </div>
+               </td>
+          </tr>
+          {% endfor %}
+     </table>
+</div>
+{% endblock %}

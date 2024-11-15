@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
      <title>Project - {% block title %}{% endblock %}</title>
 </head>
 <body id="body">
@@ -16,11 +17,15 @@
 <script>
      const currentRoute = window.location.pathname;
      const navigationLinks = document.querySelectorAll("nav a");
+     const personandequipmentlinks = document.querySelectorAll("manytomanytablelinks")
 
      navigationLinks.forEach(link => {
           if (link.getAttribute("href") === currentRoute) {
           link.classList.add("active");
-          }
-});
+          }})
+     personandequipmentlinks.forEach(link => {
+          if (link.getAttribute("href") === currentRoute) {
+          link.classList.add("selectedlink");
+          }})
 </script>
 </html>

@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+
+{% block title %}Update{% endblock %}
+
+{% block header %}
+Updating {{ personNameTitle }}'s Statistics
+{% endblock %}
+
+{% block content %}
+<div id="input-container">
+     <a id="returnlink" href="/personStatisticsTable.html">&#8630; Return to table</a>
+     <form action="">
+          <input type="hidden" name="id" value="{{existingID}}">
+          <label for="Gender" class="gender">Gender</label><br> 
+          <select class="dropdowninput" name="Gender">
+               <option value="Male" {% if existingGender == 'Male' %}selected{% endif %}>Male</option>
+               <option value="Female" {% if existingGender == 'Female' %}selected{% endif %}>Female</option>
+          </select><br>
+          <label for="Age" class="age">Age</label><br> 
+          <input type="text" name="Age" value="{{existingAge}}" class="textinput"><br>
+          <label for="HeightInches" class="heightinches">Height (in.)</label><br>
+          <input type="text" name="HeightInches" value="{{existingHeight}}" class="textinput"><br>
+          <label for="Weight" class="weight">Weight</label><br>
+          <input type="text" name="Weight" value="{{existingWeight}}" class="textinput"><br>
+          <label for="BMI" class="bmi">BMI</label><br>
+          <input type="text" name="BMI" value="{{existingBMI}}" class="textinput"><br>
+          <label for="IntensityLevel" class="intensitylevel">Intensity Level</label><br>
+          <select class="dropdowninput" name="IntensityLevel">
+               <option value="Light" {% if existingIntensity == 'Light' %}selected{% endif %}>Light</option>
+               <option value="Moderate" {% if existingIntensity == 'Moderate' %}selected{% endif %}>Moderate</option>
+               <option value="Heavy" {% if existingIntensity == 'Heavy' %}selected{% endif %}>Heavy</option>
+          </select><br>
+          <input id="submitbutton" type="submit" value="&#10003 Submit">
+        </form>
+</div>
+{% endblock %}

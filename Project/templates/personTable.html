@@ -1,35 +1,34 @@
 {% extends 'main.html' %}
 
-{% block title %}Person Table{% endblock %}
+{% block title %}Person{% endblock %}
 
-{% block header%}Person Table{% endblock %}
+{% block header%} {{ personPageTitle }} {% endblock %}
 
 {% block content %}
+<div id="many-to-many-button-container">
+     <a class="manytomanytablelinks" href="/showPerson"><i class="fas fa-user" style="padding-right:15px;"></i> Show All People</a>
+     <a class="manytomanytablelinks" href="/showEquipment"><i class="fas fa-dumbbell" style="padding-right:15px;"></i> Show All Equipment</a>
+</div>
 <div id="table-container">
-     <table id="tablestyle">
+     <table id="manytablestyle">
           <tr>
                <th>ID</th>
                <th>First Name</th>
                <th>Last Name</th>
-               <th>Username</th>
-               <th>Password</th>
                <th>Email</th>
-               <th>Last Update</th>
-               <th>Edit</th>
+               <th>Created</th>
+               <th>View</th>
           </tr>
-          {% for row in collection %}
+          {% for row in personTable %}
           <tr>
                <td>{{row[0]}}</td>
-               <td>{{row[1]}}</td>
-               <td>{{row[2]}}</td>
-               <td>{{row[3]}}</td>
-               <td>{{row[4]}}</td>
-               <td>{{row[5]}}</td>
-               <td>{{row[6]}}</td>
-               <td class="editcolumn">
+               <td >{{row[1]}}</td>
+               <td >{{row[2]}}</td>
+               <td >{{row[3]}}</td>
+               <td >{{row[4]}}</td>
+               <td class="viewcolumn">
                     <div>
-                         <a href="/updatePerson?id={{row[0]}}" class="deluplink">Update</a>
-                         <a href="?delete=true&person_id={{row[0]}}" class="deluplink">Delete</a>
+                         <a class="viewlink" href="/showEquipment?personID={{row[0]}}">Show Current Equipment</a>
                     </div>
                </td>
           </tr>

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.39, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.40, for Linux (x86_64)
 --
 -- Host: localhost    Database: fitness
 -- ------------------------------------------------------
--- Server version	8.0.39-0ubuntu0.22.04.1
+-- Server version	8.0.40-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -61,7 +61,7 @@ CREATE TABLE `activityStatistics` (
   KEY `personID` (`personID`),
   CONSTRAINT `activityStatistics_ibfk_1` FOREIGN KEY (`activityID`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `activityStatistics_ibfk_2` FOREIGN KEY (`personID`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,8 +70,33 @@ CREATE TABLE `activityStatistics` (
 
 LOCK TABLES `activityStatistics` WRITE;
 /*!40000 ALTER TABLE `activityStatistics` DISABLE KEYS */;
-INSERT INTO `activityStatistics` VALUES (1,24,2,2,1,0.50,'2024-10-01 07:34:59','2024-10-01 07:35:29'),(2,25,2,1,2,0.25,'2024-10-01 07:36:11','2024-10-01 07:37:26'),(3,28,2,2,30,0.50,'2024-10-01 07:37:40','2024-10-01 07:38:10'),(4,39,2,1,10,0.25,'2024-10-01 07:37:40','2024-10-01 07:38:10'),(5,1,2,4,8,14.00,'2024-10-01 07:42:12','2024-10-01 07:56:12'),(6,3,2,4,25,15.00,'2024-10-01 08:12:15','2024-10-01 08:27:15'),(7,43,1,3,40,1.00,'2024-10-01 14:33:19','2024-10-01 14:34:19'),(8,23,1,8,80,30.00,'2024-10-01 14:34:42','2024-10-01 15:06:42'),(9,41,3,2,20,3.00,'2024-10-02 05:40:35','2024-10-02 05:43:35'),(10,39,3,2,20,2.00,'2024-10-02 05:44:20','2024-10-02 05:47:20'),(11,15,3,4,8,13.00,'2024-10-02 05:55:03','2024-10-02 06:08:03'),(12,16,3,4,12,15.00,'2024-10-02 06:11:34','2024-10-02 06:26:34');
+INSERT INTO `activityStatistics` VALUES (1,1,1,4,10,15.00,'2024-09-28 11:15:00','2024-09-28 11:30:00'),(2,2,1,3,12,12.00,'2024-09-28 11:35:00','2024-09-28 11:47:00'),(3,8,1,4,12,10.00,'2024-09-28 11:50:00','2024-09-28 12:00:00'),(4,9,1,4,10,12.00,'2024-09-28 12:05:00','2024-09-28 12:17:00'),(5,24,1,1,0,5.00,'2024-09-28 12:20:00','2024-09-28 12:25:00'),(6,25,1,1,0,5.00,'2024-09-28 12:26:00','2024-09-28 12:31:00'),(7,16,2,4,10,18.00,'2024-09-28 14:00:00','2024-09-28 14:18:00'),(8,19,2,3,12,15.00,'2024-09-28 14:20:00','2024-09-28 14:35:00'),(9,17,2,3,10,20.00,'2024-09-28 14:40:00','2024-09-28 15:00:00'),(10,20,2,4,15,12.00,'2024-09-28 15:05:00','2024-09-28 15:17:00'),(11,31,2,1,0,5.00,'2024-09-28 15:20:00','2024-09-28 15:25:00'),(12,34,2,1,0,5.00,'2024-09-28 15:26:00','2024-09-28 15:31:00'),(13,21,3,1,0,90.00,'2024-09-28 16:00:00','2024-09-28 17:30:00'),(14,22,3,1,0,60.00,'2024-09-29 09:00:00','2024-09-29 10:00:00'),(15,23,3,1,0,90.00,'2024-09-29 10:10:00','2024-09-29 11:40:00'),(16,27,3,1,0,5.00,'2024-09-29 11:45:00','2024-09-29 11:50:00'),(17,28,3,1,0,5.00,'2024-09-29 11:51:00','2024-09-29 11:56:00'),(18,16,4,4,8,20.00,'2024-09-29 11:50:00','2024-09-29 12:10:00'),(19,19,4,3,10,15.00,'2024-09-29 12:15:00','2024-09-29 12:30:00'),(20,17,4,4,12,18.00,'2024-09-29 12:35:00','2024-09-29 12:53:00'),(21,18,4,3,8,25.00,'2024-09-29 12:58:00','2024-09-29 13:23:00'),(22,35,4,1,0,5.00,'2024-09-29 13:25:00','2024-09-29 13:30:00'),(23,36,4,1,0,5.00,'2024-09-29 13:31:00','2024-09-29 13:36:00'),(24,1,5,4,10,15.00,'2024-09-29 13:30:00','2024-09-29 13:45:00'),(25,7,5,3,12,12.00,'2024-09-29 13:50:00','2024-09-29 14:02:00'),(26,11,5,4,10,12.00,'2024-09-29 14:10:00','2024-09-29 14:22:00'),(27,12,5,4,12,10.00,'2024-09-29 14:30:00','2024-09-29 14:40:00'),(28,25,5,1,0,5.00,'2024-09-29 14:45:00','2024-09-29 14:50:00'),(29,26,5,1,0,5.00,'2024-09-29 14:51:00','2024-09-29 14:56:00'),(30,1,6,4,8,15.00,'2024-09-29 14:50:00','2024-09-29 15:05:00'),(31,5,6,3,10,15.00,'2024-09-29 15:10:00','2024-09-29 15:25:00'),(32,9,6,4,12,12.00,'2024-09-29 15:30:00','2024-09-29 15:42:00'),(33,13,6,4,10,10.00,'2024-09-29 15:50:00','2024-09-29 16:00:00'),(34,29,6,1,0,5.00,'2024-09-29 16:05:00','2024-09-29 16:10:00'),(35,30,6,1,0,5.00,'2024-09-29 16:11:00','2024-09-29 16:16:00');
 /*!40000 ALTER TABLE `activityStatistics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `equipment`
+--
+
+DROP TABLE IF EXISTS `equipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `equipment` (
+  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+  `item` varchar(25) NOT NULL,
+  `purpose` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `equipment`
+--
+
+LOCK TABLES `equipment` WRITE;
+/*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
+INSERT INTO `equipment` VALUES (1,'Dumbbell','Smaller version of barbell for weight training that is easily portable but also heavy.'),(2,'Barbell','Long rod used for upper body and lower body weight training to grow muscle.'),(3,'Cable Machine','Utilizes adjustable resistance training using cables with handles in a plethora of exercises.'),(4,'Weighted Plates','Used to increase weight on barbells or exercises like plate squeeze.'),(5,'Bench','Supports stability for lifting weights while lying down or seated.'),(6,'Pull-Up Bar','Supports upward pulling body movements when working on upper body and core.'),(7,'Squat Rack','Supports barbells with heavy weights for squats and ensures safety.'),(8,'Smith Machine','Used to guide barbell movement vertically and most use it to improve form.'),(9,'Bike','Useful for minimal leg stress while enjoying cardio outside.'),(10,'Treadmill','Best for indoor running when weather conditions are poor.'),(11,'Fitness Watch','Best to track burnt calories, heart rate, health measurements, and save exercises.'),(12,'Roller','Useful to release tension in your body by using the roller on body part.'),(13,'Swimming Goggles','Allows you to see in the water.'),(14,'Trap Bar','Hexagonal bar that allows you to stand in the middle and lift weight for deadlifts.'),(15,'Kick Board','Meant to not allow your arms movement by grasping this and makes you focus on leg strengthening.');
+/*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -138,12 +163,10 @@ CREATE TABLE `person` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
   `firstName` varchar(12) NOT NULL,
   `lastName` varchar(12) NOT NULL,
-  `username` varchar(18) NOT NULL,
-  `password` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,8 +175,35 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'Rodger','Evans','captainevans','sh3ildavenger!99','rodgerevans@gmail.com','2024-09-28 11:11:39'),(2,'Daxton','Knight','daxtonlifts','braveKnight6!','daxtonknight@gmail.com','2024-09-28 15:38:28'),(3,'Brandon','Brandt','whoisbrandon','fearlessRanger5!!','brandonbrandt@gmail.com','2024-09-29 08:34:58');
+INSERT INTO `person` VALUES (1,'Rodger','Evans','rodgerevans@gmail.com','2024-09-28 08:11:39'),(2,'Daxton','Knight','daxtonknight@gmail.com','2024-09-28 08:38:28'),(3,'Brandon','Sullivan','brandonsullivan@gmail.com','2024-09-28 08:44:58'),(4,'Caleb','Wright','calebwright@gmail.com','2024-09-28 08:47:00'),(5,'Juliana','Armstrong','julianaarmstrong@gmail.com','2024-09-28 09:29:39'),(6,'Evelyn','Monroe','evelynmonroe@gmail.com','2024-09-28 09:47:04');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `personEquipment`
+--
+
+DROP TABLE IF EXISTS `personEquipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `personEquipment` (
+  `personID` smallint unsigned NOT NULL,
+  `equipmentID` smallint unsigned NOT NULL,
+  PRIMARY KEY (`personID`,`equipmentID`),
+  KEY `equipmentID` (`equipmentID`),
+  CONSTRAINT `personEquipment_ibfk_1` FOREIGN KEY (`personID`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `personEquipment_ibfk_2` FOREIGN KEY (`equipmentID`) REFERENCES `equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `personEquipment`
+--
+
+LOCK TABLES `personEquipment` WRITE;
+/*!40000 ALTER TABLE `personEquipment` DISABLE KEYS */;
+INSERT INTO `personEquipment` VALUES (1,1),(2,1),(3,1),(5,1),(1,2),(3,2),(1,3),(5,3),(1,4),(2,4),(3,4),(5,4),(1,5),(2,5),(2,6),(5,6),(1,7),(3,7),(2,8),(4,9),(6,9),(2,10),(3,10),(1,11),(2,11),(3,11),(4,11),(5,11),(6,11),(1,12),(2,12),(3,12),(5,12),(6,12),(1,13),(2,13),(5,14),(4,15),(6,15);
+/*!40000 ALTER TABLE `personEquipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -167,12 +217,11 @@ CREATE TABLE `personStatistics` (
   `personID` smallint unsigned NOT NULL,
   `gender` varchar(6) NOT NULL,
   `age` smallint unsigned NOT NULL,
-  `heightFeet` smallint unsigned NOT NULL,
   `heightInches` smallint unsigned NOT NULL,
   `weight` smallint unsigned NOT NULL,
   `BMI` decimal(3,1) NOT NULL,
   `intensityLevel` enum('Light','Moderate','Heavy') NOT NULL,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`personID`),
   CONSTRAINT `personStatistics_ibfk_1` FOREIGN KEY (`personID`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -184,7 +233,7 @@ CREATE TABLE `personStatistics` (
 
 LOCK TABLES `personStatistics` WRITE;
 /*!40000 ALTER TABLE `personStatistics` DISABLE KEYS */;
-INSERT INTO `personStatistics` VALUES (1,'Male',25,5,9,172,21.5,'Moderate','2024-09-28 11:11:39'),(2,'Male',22,5,10,185,22.1,'Moderate','2024-09-28 15:38:28'),(3,'Male',24,5,7,176,22.2,'Heavy','2024-09-29 08:34:58');
+INSERT INTO `personStatistics` VALUES (1,'Male',25,69,172,21.5,'Moderate','2024-09-28 08:11:39'),(2,'Male',22,70,185,22.1,'Moderate','2024-09-28 08:38:28'),(3,'Male',24,67,176,23.2,'Heavy','2024-09-28 08:44:58'),(4,'Male',20,70,176,21.5,'Heavy','2024-09-28 08:47:00'),(5,'Female',22,63,148,21.4,'Moderate','2024-09-28 09:29:39');
 /*!40000 ALTER TABLE `personStatistics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,4 +272,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-08  2:44:01
+-- Dump completed on 2024-11-15 23:05:13

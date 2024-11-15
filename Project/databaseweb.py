@@ -9,8 +9,8 @@ navbar_html = """
 <nav>
      <ul>
           <a href="/">Home</a>
-          <a href="/input.html">Form</a>   
-          <a href="/personTable.html">Person Table</a>
+          <a href="/personStatisticsTable.html">Person Statistics</a>
+          <a href="/PersonAndEquipment.html">Person & Equipment</a>  
      </ul>
 </nav>
 """
@@ -22,65 +22,168 @@ connection = mysql.connector.connect(**creds)
 
 @app.route('/')
 def indexPage():
-     output = render_template('index.html', navbar=navbar_html)
-     return output
+     return render_template('index.html', navbar=navbar_html)
 
-@app.route('/input.html')
+@app.route('/personStatisticsForm.html')
 def inputPage():
-     output = render_template('input.html', navbar=navbar_html)
-     return output
+     mycursor = connection.cursor()
 
-@app.route('/personTable.html')
-def showUsersPage():
+     mycursor.execute("""SELECT id, firstName, lastName
+                    FROM person
+                    WHERE id NOT IN ( 
+                         SELECT personID
+                         FROM personStatistics
+                         )
+                    """)
+     people = mycursor.fetchall()
+     print(people)
+    
+     mycursor.execute("SELECT personID FROM personStatistics")
+     personID_Stat = [row[0] for row in mycursor.fetchall()]
+
+     mycursor.close()
+     return render_template('personStatisticsForm.html', navbar=navbar_html, people=people, personID_Stat=personID_Stat)
+
+@app.route('/personStatisticsTable.html')
+def showPersonStatisticsPage():
 
      mycursor = connection.cursor()
 
-     personFirst = request.args.get('firstName')
-     personLast = request.args.get('lastName')
-     username = request.args.get('Username')
-     password = request.args.get('Password')
-     email = request.args.get('Email')
-     if personFirst is not None and personLast is not None and username is not None and password is not None and email is not None:
-          mycursor.execute("INSERT into person (firstName, lastName, Username, Password, Email) values (%s, %s, %s, %s, %s)", (personFirst, personLast, username, password, email))
+     person = request.args.get('id')
+     gender = request.args.get('Gender')
+     age = request.args.get('Age')
+     heightinches = request.args.get('HeightInches')
+     weight = request.args.get('Weight')
+     bmi = request.args.get('BMI')
+     intensitylevel = request.args.get('IntensityLevel')
+     if person is not None and gender is not None and age is not None and heightinches is not None and weight is not None and bmi is not None and intensitylevel is not None:
+          mycursor.execute("INSERT INTO personStatistics (personID, gender, age, heightInches, weight, BMI, intensityLevel) VALUES (%s, %s, %s, %s, %s, %s, %s)", (person, gender, age, heightinches, weight, bmi, intensitylevel))
           connection.commit()
      elif request.args.get('delete') == 'true':
-          deleteID = request.args.get('person_id')
+          deleteID = request.args.get('personStatistics_id')
           try:
                deleteID = int(deleteID)
-               mycursor.execute("DELETE from person where id=%s", (deleteID,))
+               mycursor.execute("DELETE FROM personStatistics where personID=%s", (deleteID,))
                connection.commit()
           except:
                print('Error occured with ID')
 
-     
-     mycursor.execute("SELECT * FROM person")
+     mycursor.execute("SELECT * FROM personStatistics")
      myresult = mycursor.fetchall()
      mycursor.close()
-     return render_template('personTable.html', collection=myresult, navbar=navbar_html)
+     return render_template('personStatisticsTable.html', personStatistics=myresult, navbar=navbar_html)
 
-@app.route('/updatePerson')
-def updatePerson():
-     id = request.args.get('id')
-     FirstName= request.args.get('firstName')
-     LastName = request.args.get('lastName')
-     UserName = request.args.get('Username')
-     PassWord = request.args.get('Password')
-     EMAIL = request.args.get('Email')
-     if id is None:
-          return "Error, id not specified"
-     elif FirstName is not None and LastName is not None and UserName is not None and PassWord is not None and EMAIL is not None:
+@app.route('/updatePersonStatistics')
+def updatePersonStatistics():
+     PERSONID = request.args.get('id')
+     print(f"Retreived: {PERSONID}")
+     try:
+          PERSONID = int(PERSONID)
+     except:
+          return "Error: Invalid ID"
+
+     GENDER = request.args.get('Gender')
+     AGE = request.args.get('Age')
+     HEIGHTINCHES = request.args.get('HeightInches')
+     WEIGHT = request.args.get('Weight')
+     BMI = request.args.get('BMI')
+     INTENSITYLEVEL = request.args.get('IntensityLevel')
+
+     if PERSONID is None:
+          return "Error: id not specified."
+     elif GENDER is not None and AGE is not None and HEIGHTINCHES is not None and WEIGHT is not None and BMI is not None and INTENSITYLEVEL is not None:
           mycursor = connection.cursor()
-          mycursor.execute("UPDATE person SET firstName=%s, lastName=%s, Username=%s, Password=%s, Email=%s WHERE id=%s", (FirstName, LastName, UserName, PassWord, EMAIL, id))
+          mycursor.execute("UPDATE personStatistics SET gender=%s, age=%s, heightinches=%s, weight=%s, BMI=%s, intensityLevel=%s WHERE personID=%s", 
+          (GENDER, AGE, HEIGHTINCHES, WEIGHT, BMI, INTENSITYLEVEL, PERSONID))
           mycursor.close()
           connection.commit()
-          return redirect(url_for('showUsersPage'))
+          return redirect(url_for('showPersonStatisticsPage'))
      
      mycursor = connection.cursor()
-     mycursor.execute("SELECT firstName, lastName, Username, Password, Email FROM person WHERE id=%s;", (id,))
-     existingFirst, existingLast, existingUsername, existingPassword, existingEmail = mycursor.fetchone()
+     mycursor.execute("SELECT gender, age, heightInches, weight, BMI, intensityLevel FROM personStatistics WHERE personID=%s;", (PERSONID,))
+     existingGender, existingAge, existingHeight, existingWeight, existingBMI, existingIntensity = mycursor.fetchone()
+
+     mycursor.execute("SELECT firstName, lastName FROM person WHERE id=%s;", (PERSONID,))
+     personResult = mycursor.fetchone()
+     personNameTitle = f"{personResult[0]} {personResult[1]}"
      mycursor.close()
-     return render_template('person-update.html', id=id, existingFirst=existingFirst, existingLast=existingLast, existingUsername=existingUsername, existingPassword=existingPassword, existingEmail=existingEmail,
-                           navbar=navbar_html)
+
+     return render_template('personStatisticsUpdate.html', existingID=PERSONID, existingGender=existingGender, existingAge=existingAge, existingHeight=existingHeight, existingWeight=existingWeight, existingBMI=existingBMI, existingIntensity=existingIntensity, navbar=navbar_html, personNameTitle=personNameTitle)
+
+@app.route('/PersonAndEquipment.html')
+def defaultPersonEquipmentPage():
+     return render_template('PersonAndEquipment.html', navbar=navbar_html)
+
+@app.route('/showPerson', methods=['GET'])
+def showPerson():
+     connection = mysql.connector.connect(**creds)
+     mycursor = connection.cursor()
+     equipmentID = request.args.get('equipmentID')
+
+     if equipmentID is not None:
+          mycursor.execute("""SELECT person.id, firstName, lastName, email, created, item 
+                           FROM person
+                           JOIN personEquipment ON person.id=personEquipment.personID
+                           JOIN equipment ON equipment.id=personEquipment.equipmentID
+                           WHERE equipmentID=%s""", (equipmentID,))
+          personresult = mycursor.fetchall()
+          if len(personresult) >= 1:
+               equipmentName = personresult[0][5]
+          else:
+               equipmentName = "Unknown"
+          personPageTitle = f"Showing All People Using {equipmentName}" 
+     else:
+          mycursor.execute("SELECT * FROM person")
+          personPageTitle = "Showing All People" 
+          personresult = mycursor.fetchall()
+
+     mycursor.close()
+     connection.close()   
+     return render_template('personTable.html', navbar=navbar_html, personPageTitle=personPageTitle, personTable=personresult)
+
+@app.route('/showEquipment', methods=['GET'])
+def showEquipment():
+     connection = mysql.connector.connect(**creds)
+     mycursor = connection.cursor()
+     personID = request.args.get('personID')
+
+     if personID is not None:
+          addEquipmentID = request.args.get('addEquipmentID')
+          if addEquipmentID is not None:
+               mycursor.execute("INSERT INTO personEquipment (personID, equipmentID) VALUES (%s, %s)", (personID, addEquipmentID))
+               connection.commit()
+          
+          mycursor.execute("""SELECT equipmentID, item, purpose, firstName, lastName 
+                           FROM equipment
+                           JOIN personEquipment ON equipment.id=personEquipment.equipmentID
+                           JOIN person ON person.id=personEquipment.personID
+                           WHERE person.id=%s""", (personID,))
+          equipmentresult = mycursor.fetchall()
+          print(equipmentresult)
+          if len(equipmentresult) >= 1:
+               personName = equipmentresult[0][3] + " " + equipmentresult[0][4]
+               mycursor.execute("""SELECT DISTINCT equipmentID, item, purpose
+                                FROM equipment
+                                JOIN personEquipment ON equipment.id=personEquipment.equipmentID
+                                WHERE id NOT IN (
+                                   SELECT equipmentID
+                                   FROM personEquipment
+                                   WHERE personEquipment.personID=%s)""", (personID,))
+               otherEquipmentTypes = mycursor.fetchall()
+               print(otherEquipmentTypes)
+          else:
+               personName = "Unknown"
+               otherEquipmentTypes = None
+          equipmentPageTitle = f"Showing Equipment Used By {personName}"
+     else:
+          mycursor.execute("SELECT * FROM equipment")
+          equipmentPageTitle = "Showing All Equipment"
+          equipmentresult = mycursor.fetchall()
+          otherEquipmentTypes = None
+
+     mycursor.close()
+     connection.close()   
+     return render_template('equipmentTable.html', navbar=navbar_html, equipmentPageTitle=equipmentPageTitle, equipmentTable=equipmentresult, otherEquipmentTypes=otherEquipmentTypes, personID=personID)
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True, host="0.0.0.0")
+    app.run(port=8002, debug=True, host="0.0.0.0")

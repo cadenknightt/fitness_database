@@ -18,12 +18,13 @@
 }
 #navbar-container {
      display: inline-block;
-     background-color: white;
+     background-color: #1b262d;
      height: 70px;
      width: 100%;
-     border-bottom: 1px solid #96e1ff;
+     border-bottom: 4px solid #ed314d;
      place-items: center;
-     position: static;
+     position: fixed;
+     top: 0;
 }
 body {
      display: grid;
@@ -39,6 +40,9 @@ body {
 mark {
      color: #ed314d;
      background-color: #ffffff00;
+     font-weight: 800;
+}
+b {
      font-weight: 800;
 }
 
@@ -62,7 +66,7 @@ ul {
 nav a {
      text-decoration: none;
      font-family: 'Fira Sans Condensed', sans-serif;
-     color: #1b262d;
+     color: white;
      font-size: 22px;
      transition: .2s ease-in;
      padding: 15px;
@@ -74,7 +78,7 @@ nav a:hover {
      font-weight: 500;
 }
 nav a.active {
-     color: black;
+     color: white;
      font-weight: 700;
      cursor: default;
      pointer-events: none;
@@ -84,9 +88,10 @@ nav a.active {
 h1 {
      font-family: 'Fira Sans', sans-serif;
      font-size: 52px;
-     margin-top: 50px;
+     margin-top: 140px;
      font-weight: 900;
      color: #1b262d;
+     text-align: center;
 }
 h2 {
      font-family: 'Fira Sans', sans-serif;
@@ -96,6 +101,16 @@ h2 {
      text-align: center;
      text-decoration: underline #ed314d44;
      text-underline-offset: 6px;
+}
+h3 {
+     font-family: 'Fira Sans', sans-serif;
+     font-weight: 900;
+     color: #1b262d;
+     font-size: 30px;
+     text-align: center;
+     text-decoration: underline #1b262d44;
+     text-underline-offset: 6px;
+     margin-top: 0;
 }
 p {
      font-family: 'Fira Sans Condensed', sans-serif;
@@ -127,6 +142,21 @@ label {
      width: 15em;
      background-color: white;
 }
+
+.dropdowninput {
+     font-family: 'Fira Sans Condensed', sans-serif;
+     height: 45px;
+     font-size: 18px;
+     border: 1px solid #1b262d32;
+     border-radius: 6px;
+     padding-left: 15px;
+     margin-top: 6px;
+     margin-bottom: 30px;
+     font-weight: 500;
+     color: #ed314d;
+     width: 16em;
+     background-color: white;
+}
 #submitbutton {
      color: #ffffff;
      font-family: 'Fira Sans Condensed', sans-serif;
@@ -143,7 +173,7 @@ label {
 #submitbutton:hover {
      cursor: pointer;
      color: #cbf0ff;
-     box-shadow: 2px 4px 2px 0px #cbf0ff;
+     box-shadow: 0px 5px 4px 0px #cbf0ff;
 }
 
 /* User Table Page Styling */
@@ -155,22 +185,22 @@ label {
 }
 th, td {
      border: 1px solid #1b262d32;
-     text-align: left;
-     width: max-content;
+     text-align: center;
+     padding: 15px 15px;
 }
 th {
-     padding: 15px 25px;
      font-size: 20px;
      font-weight: 600;
      color: white;
      background-color: #1b262d;
+     height: 30px;
 }
 td {
-     padding: 8px 25px;
      font-size: 20px;
      font-weight: 400;
      color: #1b262d;
      background-color: white;
+     text-align: left;
 }
 .deluplink {
      color: white;
@@ -197,7 +227,7 @@ td {
 }
 #returnlink:hover {
      color: #cbf0ff;
-     box-shadow: 2px 4px 2px 0px #cbf0ff;
+     box-shadow: 0px 5px 4px 0px #cbf0ff;
 }
 .editcolumn {
      background-color: #ed314d;
@@ -205,4 +235,134 @@ td {
      width: 85px; 
      padding-top: none; 
      padding-bottom: none;
+}
+#formlink {
+     color: #ffffff;
+     font-family: 'Fira Sans Condensed', sans-serif;
+     background-color: #ed314d;
+     padding: 15px 312px;
+     text-decoration: none;
+     border-top-left-radius: 10px;
+     border-top-right-radius: 10px;
+     font-weight: 600;
+     transition: .2s ease-in-out;
+     border: 1px solid #be2139;
+     font-size: 20px;
+}
+#formlink:hover {
+     color: #ed314d;
+     border: 1px solid #ed314d;
+     background-color: white;
+     font-weight: 600;
+     box-shadow: 0px 5px 4px 0px #ed314d48;
+     translate: 0px -3px;
+}
+.manytomanytablelinks {
+     color: #ffffff;
+     font-family: 'Fira Sans Condensed', sans-serif;
+     margin-bottom: 30px;
+     background-color: #ed314d;
+     padding: 10px;
+     text-decoration: none;
+     border-radius: 5px;
+     font-weight: 600;
+     transition: .2s ease-in-out;
+     border: 1px solid #be2139;
+     font-size: 20px;
+     margin-right: 30px;
+     margin-left: 30px;
+}
+.manytomanytablelinks:hover {
+     color: #ed314d;
+     border: 1px solid #ed314d;
+     background-color: white;
+     font-weight: 600;
+     box-shadow: 0px 5px 4px 0px #ed314d48;
+     translate: 0px -3px;
+}
+#many-to-many-button-container {
+     display: flexbox;
+     place-items: center;
+}
+#manytablestyle {
+     border-collapse: collapse;
+     border: 1px solid;
+     font-family: 'Fira Sans Condensed', sans-serif;
+     box-shadow: 0px 5px 4px 0px #ed314d48;
+     margin-bottom: 80px;
+     margin-top: 40px;
+}
+.viewlink {
+     color: white;
+     text-decoration: none;
+     line-height: 20px;
+     font-weight: 400;
+     margin-bottom: 5px;
+}
+.viewlink:hover {
+     font-weight: 700;
+}
+#selectedlink {
+     color: #ed314d;
+     border: 1px solid #ed314d;
+     background-color: white;
+     font-weight: 600;
+     box-shadow: 0px 5px 4px 0px #ed314d48;
+     translate: 0px -3px;
+     pointer-events: none;
+}
+.viewcolumn {
+     background-color: #ed314d;
+     color: white;
+     width: 220px; 
+     padding-top: none; 
+     padding-bottom: none;
+}
+.addEquipment-container {
+     font-family: 'Fira Sans Condensed', sans-serif;
+     text-decoration: none;
+     border-top-left-radius: 10px;
+     border-top-right-radius: 10px;
+     display: inline-block;
+     background-color: #ed314d;
+     translate: 0px 40px;
+     width: 966px;
+}
+.equipmentdropdowninput {
+     font-family: 'Fira Sans Condensed', sans-serif;
+     height: 45px;
+     font-size: 20px;
+     border: 1px solid #1b262d32;
+     border-radius: 6px;
+     padding-left: 15px;
+     margin-top: 22px;
+     margin-bottom: 20px;
+     font-weight: 500;
+     color: #1b262d;
+     width: 15em;
+     background-color: white;
+     cursor: pointer;
+}
+#equipmentsubmitbutton {
+     color: #ffffff;
+     font-family: 'Fira Sans Condensed', sans-serif;
+     padding: 10px;
+     background-color: #1b262d;
+     text-decoration: none;
+     border-radius: 5px;
+     font-weight: 500;
+     transition: .2s ease-in-out;
+     border: 1px solid black;
+     font-size: 18px;
+     margin-left: 20px;
+}
+#equipmentsubmitbutton:hover {
+     cursor: pointer;
+     box-shadow: 0px 5px 4px 0px #5b0a1648;
+}
+#equipmentform {
+     display: inline;
+     flex-direction: column; /* Stack elements vertically */
+     align-items: center;
+     padding-left: 280px;
 }
