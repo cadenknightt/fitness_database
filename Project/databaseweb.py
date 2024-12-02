@@ -114,76 +114,165 @@ def updatePersonStatistics():
 def defaultPersonEquipmentPage():
      return render_template('PersonAndEquipment.html', navbar=navbar_html)
 
-@app.route('/showPerson', methods=['GET'])
+@app.route('/showPerson', methods=['GET', 'POST'])
 def showPerson():
      connection = mysql.connector.connect(**creds)
      mycursor = connection.cursor()
-     equipmentID = request.args.get('equipmentID')
 
-     if equipmentID is not None:
-          mycursor.execute("""SELECT person.id, firstName, lastName, email, created, item 
-                           FROM person
-                           JOIN personEquipment ON person.id=personEquipment.personID
-                           JOIN equipment ON equipment.id=personEquipment.equipmentID
-                           WHERE equipmentID=%s""", (equipmentID,))
-          personresult = mycursor.fetchall()
-          if len(personresult) >= 1:
-               equipmentName = personresult[0][5]
-          else:
-               equipmentName = "Unknown"
-          personPageTitle = f"Showing All People Using {equipmentName}" 
-     else:
-          mycursor.execute("SELECT * FROM person")
-          personPageTitle = "Showing All People" 
-          personresult = mycursor.fetchall()
+     FIRSTNAME = request.args.get('FirstName')
+     LASTNAME = request.args.get('LastName')
+     EMAIL = request.args.get('Email')
+     if FIRSTNAME is not None and LASTNAME is not None and EMAIL is not None:
+          mycursor.execute("INSERT INTO person (firstName, lastName, email) VALUES (%s, %s, %s)", (FIRSTNAME, LASTNAME, EMAIL))
+          connection.commit()
+
+     deletePersonID = request.args.get('deletePersonID')
+     if deletePersonID is not None:
+          try:
+               mycursor.execute("DELETE FROM person WHERE id=%s", (deletePersonID,))
+               connection.commit()
+          except:
+               return "Error deleting Person"
+     
+     mycursor.execute("SELECT * FROM person")
+     allPeople = mycursor.fetchall()
+     pageTitle = "Showing All People"
+
 
      mycursor.close()
      connection.close()   
-     return render_template('personTable.html', navbar=navbar_html, personPageTitle=personPageTitle, personTable=personresult)
+     return render_template('personTable.html', navbar=navbar_html, pageTitle=pageTitle, personTable=allPeople)
+
+@app.route('/showPersonInfo', methods=['GET', 'POST'])
+def showPersonInfo():
+     connection = mysql.connector.connect(**creds)
+     mycursor = connection.cursor()
+
+     personID = request.args.get('personID')
+     if personID is None:
+          return redirect(url_for("showPerson"))
+     
+     NEWFIRST = request.args.get('FirstName')
+     NEWLAST = request.args.get('LastName')
+     NEWEMAIL = request.args.get('Email')
+     if NEWFIRST is not None and NEWLAST is not None and NEWEMAIL is not None:
+          mycursor.execute("UPDATE person SET firstName=%s, lastName=%s, email=%s WHERE id=%s", (NEWFIRST, NEWLAST, NEWEMAIL, personID))
+          connection.commit()
+
+     addEquipmentID = request.args.get('addEquipmentID')
+     if addEquipmentID is not None and personID is not None:
+          mycursor.execute("INSERT INTO personEquipment (personID, equipmentID) VALUES (%s, %s)", (personID, addEquipmentID))
+          connection.commit()
+     
+     deleteEquipmentID = request.args.get('deleteEquipmentID')
+     if deleteEquipmentID is not None:
+          mycursor.execute("DELETE FROM personEquipment WHERE personID=%s AND equipmentID=%s", (personID, deleteEquipmentID))
+          connection.commit()
+     
+     mycursor.execute("SELECT firstName, lastName, email FROM person WHERE id=%s", (personID,))
+     personFirst, personLast, personEmail = mycursor.fetchone()
+     if personFirst is None and personLast is None and personEmail is None:
+          return """Error: Person not found. <a href="/showPerson">Return to Person</a>"""
+     
+     mycursor.execute("""SELECT e.id, e.item, e.purpose
+                           FROM equipment e
+                           JOIN personEquipment pe ON e.id=pe.equipmentID
+                           JOIN person p ON p.id=pe.personID
+                           WHERE p.id=%s""", (personID,))
+     persons_equipment = mycursor.fetchall()
+
+     mycursor.execute("""SELECT DISTINCT e.id, e.item, e.purpose
+                                FROM equipment e
+                                WHERE id NOT IN (
+                                   SELECT equipmentID
+                                   FROM personEquipment pe
+                                   WHERE pe.personID=%s)""", (personID,))
+     otherEquipmentTypes = mycursor.fetchall()
+     
+     mycursor.close()
+     connection.close()
+
+     return render_template('personInfoTable.html', navbar=navbar_html, personID=personID, existingFirst=personFirst, existingLast=personLast, existingEmail=personEmail, persons_equipment=persons_equipment, otherEquipmentTypes=otherEquipmentTypes)
+          
+@app.route('/showEquipmentInfo', methods=['GET', 'POST'])
+def showEquipmentInfo():
+     connection = mysql.connector.connect(**creds)
+     mycursor = connection.cursor()
+
+     equipmentID = request.args.get('equipmentID')
+     if equipmentID is None:
+          return redirect(url_for("showEquipment"))
+     
+     NEWEQUIPMENT = request.args.get('Equipment')
+     NEWPURPOSE = request.args.get('Purpose')
+     if NEWEQUIPMENT is not None and NEWPURPOSE is not None:
+          mycursor.execute("UPDATE equipment SET item=%s, purpose=%s WHERE id=%s", (NEWEQUIPMENT, NEWPURPOSE, equipmentID))
+          connection.commit()
+
+     addPersonID = request.args.get('addPersonID')
+     if addPersonID is not None and equipmentID is not None:
+          mycursor.execute("INSERT INTO personEquipment (personID, equipmentID) VALUES (%s, %s)", (addPersonID, equipmentID))
+          connection.commit()
+     
+     deletePersonID = request.args.get('deletePersonID')
+     if deletePersonID is not None:
+          mycursor.execute("DELETE FROM personEquipment WHERE personID=%s AND equipmentID=%s", (deletePersonID, equipmentID))
+          connection.commit()
+     
+     mycursor.execute("SELECT item, purpose FROM equipment WHERE id=%s", (equipmentID,))
+     equipmentItem, equipmentPurpose = mycursor.fetchone()
+     if equipmentItem is None and equipmentPurpose is None:
+          return """Error: Equipment not found. <a href="/showEquipment">Return to Equipment</a>"""
+     
+     mycursor.execute("""SELECT p.id, p.firstName, p.lastName, p.email, p.created
+                           FROM person p
+                           JOIN personEquipment pe ON p.id=pe.personID
+                           JOIN equipment e ON e.id=pe.equipmentID
+                           WHERE e.id=%s""", (equipmentID,))
+     equipment_person = mycursor.fetchall()
+
+     mycursor.execute("""SELECT DISTINCT p.id, p.firstName, p.lastName, p.email, p.created
+                                FROM person p
+                                WHERE p.id NOT IN (
+                                   SELECT personID
+                                   FROM personEquipment pe
+                                   WHERE pe.equipmentID=%s)""", (equipmentID,))
+     otherPeople = mycursor.fetchall()
+     
+     mycursor.close()
+     connection.close()
+
+     return render_template('equipmentInfoTable.html', navbar=navbar_html, equipmentID=equipmentID, existingEquipment=equipmentItem, existingPurpose=equipmentPurpose, equipment_person=equipment_person, otherPeople=otherPeople)
 
 @app.route('/showEquipment', methods=['GET'])
 def showEquipment():
      connection = mysql.connector.connect(**creds)
      mycursor = connection.cursor()
-     personID = request.args.get('personID')
 
-     if personID is not None:
-          addEquipmentID = request.args.get('addEquipmentID')
-          if addEquipmentID is not None:
-               mycursor.execute("INSERT INTO personEquipment (personID, equipmentID) VALUES (%s, %s)", (personID, addEquipmentID))
+     connection = mysql.connector.connect(**creds)
+     mycursor = connection.cursor()
+
+     EQUIPMENT = request.args.get('Equipment')
+     PURPOSE = request.args.get('Purpose')
+     if EQUIPMENT is not None and PURPOSE is not None:
+          mycursor.execute("INSERT INTO equipment (item, purpose) VALUES (%s, %s)", (EQUIPMENT, PURPOSE))
+          connection.commit()
+
+     deletePersonID = request.args.get('deleteEquipmentID')
+     if deletePersonID is not None:
+          try:
+               mycursor.execute("DELETE FROM equipment WHERE id=%s", (deletePersonID,))
                connection.commit()
-          
-          mycursor.execute("""SELECT equipmentID, item, purpose, firstName, lastName 
-                           FROM equipment
-                           JOIN personEquipment ON equipment.id=personEquipment.equipmentID
-                           JOIN person ON person.id=personEquipment.personID
-                           WHERE person.id=%s""", (personID,))
-          equipmentresult = mycursor.fetchall()
-          print(equipmentresult)
-          if len(equipmentresult) >= 1:
-               personName = equipmentresult[0][3] + " " + equipmentresult[0][4]
-               mycursor.execute("""SELECT DISTINCT equipmentID, item, purpose
-                                FROM equipment
-                                JOIN personEquipment ON equipment.id=personEquipment.equipmentID
-                                WHERE id NOT IN (
-                                   SELECT equipmentID
-                                   FROM personEquipment
-                                   WHERE personEquipment.personID=%s)""", (personID,))
-               otherEquipmentTypes = mycursor.fetchall()
-               print(otherEquipmentTypes)
-          else:
-               personName = "Unknown"
-               otherEquipmentTypes = None
-          equipmentPageTitle = f"Showing Equipment Used By {personName}"
-     else:
-          mycursor.execute("SELECT * FROM equipment")
-          equipmentPageTitle = "Showing All Equipment"
-          equipmentresult = mycursor.fetchall()
-          otherEquipmentTypes = None
+          except:
+               return "Error deleting Equipment"
+     
+     mycursor.execute("SELECT * FROM equipment")
+     allEquipment = mycursor.fetchall()
+     pageTitle = "Showing All Equipment"
 
      mycursor.close()
      connection.close()   
-     return render_template('equipmentTable.html', navbar=navbar_html, equipmentPageTitle=equipmentPageTitle, equipmentTable=equipmentresult, otherEquipmentTypes=otherEquipmentTypes, personID=personID)
+     return render_template('equipmentTable.html', navbar=navbar_html, pageTitle=pageTitle, equipmentTable=allEquipment)
 
 if __name__ == '__main__':
-    app.run(port=8002, debug=True, host="0.0.0.0")
+    app.run(port=8005, debug=True, host="0.0.0.0")

@@ -1,0 +1,72 @@
+{% extends 'main.html' %}
+
+{% block title %}Person{% endblock %}
+
+{% block header%} People Using {{ existingEquipment }}s {% endblock %}
+
+{% block content %}
+<div id="many-to-many-button-container">
+     <a class="manytomanytablelinks" href="/showPerson"><i class="fas fa-user" style="padding-right:15px;"></i> Show All People</a>
+     <a class="manytomanytablelinks" href="/showEquipment"><i class="fas fa-dumbbell" style="padding-right:15px;"></i> Show All Equipment</a>
+</div>
+<div id="inputmany-container">
+     <h3 id="formtitle">Edit Equipment</h3>
+     <form action="{{ url_for('showEquipmentInfo') }}" method="GET">
+          <input type="hidden" name="equipmentID" value="{{equipmentID}}">
+          <div class="firstflexcontainer">
+               <div class="equipmentitem">
+                    <label for="Equipment" class="equipment">Equipment</label>
+                    <input class="manytextinput" type="text" name="Equipment" value="{{existingEquipment}}" style="width: 220px;">
+               </div>
+               <div class="purposeitem">
+                    <label for="Purpose" class="purpose">Purpose</label>
+                    <textarea class="manytextinput" name="Purpose" rows="5" cols="40" style="width:400px; text-wrap:wrap; height: 80px; padding: 10px;">{{existingPurpose}}</textarea>
+               </div>
+          </div>
+          <div id="submititem" style="margin-top: 30px;">
+               <input id="submitbuttonmany" type="submit" name="Submit" value="Update">
+          </div>
+     </form>
+</div>
+<div class="addPerson-container">
+     <h3 style="color: #ffffff; text-decoration: underline #ffffff44;" id="formtitle">Add Person</h3>
+     {% if otherPeople %}
+     <form id="personform" method="GET" action="/showEquipmentInfo">
+          <select class="equipmentdropdowninput" name="addPersonID">
+               <option>Choose Person To Add</option>
+               {% for person in otherPeople %}
+               <option value='{{ person[0] }}'>{{person[1]}} {{person[2]}}</option>
+               {% endfor %}
+          </select>
+          <input type="hidden" name="equipmentID" value="{{ equipmentID }}" />
+          <button type="submit" id="equipmentsubmitbutton">Add to {{ existingEquipment }}</button>
+     </form>
+     {% endif %}
+</div>
+<div id="table-container">
+     <table id="manytablestyle">
+          <tr>
+               <th>ID</th>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Email</th>
+               <th>Created</th>
+               <th>Maintenace</th>
+          </tr>
+          {% for row in equipment_person %}
+          <tr>
+               <td>{{row[0]}}</td>
+               <td>{{row[1]}}</td>
+               <td style="width: 180px;">{{row[2]}}</td>
+               <td>{{row[3]}}</td>
+               <td>{{row[4]}}</td>
+               <td style="width: 50px; text-align: center;" class="viewcolumn">
+                    <div>
+                         <a class="viewlink" href="/showEquipmentInfo?equipmentID={{equipmentID}}&deletePersonID={{row[0]}}">Remove</a><br>
+                    </div>
+               </td>
+          </tr>
+          {% endfor %}
+     </table>
+</div>
+{% endblock %}

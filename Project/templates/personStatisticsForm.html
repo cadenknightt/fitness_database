@@ -6,39 +6,66 @@
 
 {% block content %}
 <div id="input-container">
-     <a id="returnlink" href="/personStatisticsTable.html">&#8630; Return to table</a>
-     <form action="personStatisticsTable.html" method="GET">
-          <label for="id" class="person">Person</label><br>
-          <select class="dropdowninput" name="id">
-               <option value="Select New Person">Select New Person</option>
-               {% for person in people %}
-                    {% if person[0] not in personID_Stat %} 
-                    <option value="{{ person[0] }}">{{ person[1] }} {{ person[2] }}</option>
-                    {% endif %}
-               {% endfor %}
-          </select><br>
-          <label for="Gender" class="gender">Gender</label><br>
-          <select class="dropdowninput" name="Gender">
-               <option value="Select Gender">Select Gender</option>
-               <option value="Male">Male</option>
-               <option value="Female">Female</option>
-          </select><br>
-          <label for="Age" class="age">Age</label><br>
-          <input class="textinput" type="text" name="Age"><br>
-          <label for="HeightInches" class="heightInches">Height (in.)</label><br>
-          <input class="textinput" type="text" name="HeightInches"><br>
-          <label for="Weight" class="weight">Weight</label><br>
-          <input class="textinput" type="text" name="Weight"><br>
-          <label for="BMI" class="bmi">BMI</label><br>
-          <input class="textinput" type="text" name="BMI"><br>
-          <label for="IntensityLevel" class="intensitylevel">Intensity Level</label><br>
-          <select class="dropdowninput" name="IntensityLevel">
-               <option value="Select Level">Select Level</option>
-               <option value="Light">Light</option>
-               <option value="Moderate">Moderate</option>
-               <option value="Heavy">Heavy</option>
-          </select><br>
-          <input id="submitbutton" type="submit" name="Submit" value="&#10003 Submit">
+     <div id="returnlinkcontainer">
+          <a id="returnlink" href="/personStatisticsTable.html">&#8630; Return to table</a>
+     </div>
+     <form id="personstatform" action="personStatisticsTable.html" method="GET">
+          <h3 id="formtitle" style="color:white; text-decoration: underline #ffffff44;">Add Statistics</h3>
+          <div id="personcontainer">
+               <div id="personinfoitem">
+                    <label for="id" class="person">Person</label>
+                    <select class="dropdowninput" name="id" style="width: 200px;">
+                         <option value="Select New Person">Select New Person</option>
+                         {% for person in people %}
+                              {% if person[0] not in personID_Stat %} 
+                              <option value="{{ person[0] }}">{{ person[1] }} {{ person[2] }}</option>
+                              {% endif %}
+                         {% endfor %}
+                    </select>
+               </div>
+               <div id="persongenderitem">
+                    <label for="Gender" class="gender">Gender</label>
+                    <select class="dropdowninput" name="Gender" style="width: 170px;">
+                         <option value="Select Gender">Select Gender</option>
+                         <option value="Male">Male</option>
+                         <option value="Female">Female</option>
+          </select>
+               </div>
+          </div>
+          <div id="personnumbercontainer">
+               <div id="ageitem">
+                    <label for="Age" class="age">Age</label>
+                    <input class="textinput" type="text" name="Age" style="width: 60px;">
+               </div>
+               <div id="heightitem">
+                    <label for="HeightInches" class="heightInches">Height (in.)</label>
+                    <input class="textinput" type="text" name="HeightInches" style="width: 60px;">
+               </div>
+               <div id="weightitem">
+                    <label for="Weight" class="weight">Weight</label>
+                    <input class="textinput" type="text" name="Weight" style="width: 60px;"><br>
+               </div>
+          </div>
+          <div id="personphysicalcontainer">
+               <div id="bmiitem">
+                    <label for="BMI" class="bmi">BMI</label>
+                    <input class="textinput" type="text" name="BMI" style="width: 80px;">
+               </div>
+               <div id="intensityitem">
+                    <label for="IntensityLevel" class="intensitylevel">Intensity Level</label>
+                    <select class="dropdowninput" name="IntensityLevel" style="width: 150px;">
+                         <option value="Select Level">Select Level</option>
+                         <option value="Light">Light</option>
+                         <option value="Moderate">Moderate</option>
+                         <option value="Heavy">Heavy</option>
+                    </select>
+               </div>
+          </div>
+          <div id="secondcontainer">
+               <div id="submititem">
+                    <input id="submitbutton" type="submit" name="Submit" value="Submit">
+               </div>
+          </div>
      </form>
 </div>
 {% endblock %}

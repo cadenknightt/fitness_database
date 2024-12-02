@@ -2,14 +2,38 @@
 
 {% block title %}Person{% endblock %}
 
-{% block header%} {{ personPageTitle }} {% endblock %}
+{% block header%} {{ pageTitle }} {% endblock %}
 
 {% block content %}
 <div id="many-to-many-button-container">
      <a class="manytomanytablelinks" href="/showPerson"><i class="fas fa-user" style="padding-right:15px;"></i> Show All People</a>
      <a class="manytomanytablelinks" href="/showEquipment"><i class="fas fa-dumbbell" style="padding-right:15px;"></i> Show All Equipment</a>
 </div>
-<div id="table-container">
+<div id="inputmany-container" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+     <h3 id="formtitle">Add Person</h3>
+     <form style="padding:30px;" action="{{ url_for('showPerson') }}" method="GET">
+          <div class="firstflexcontainer">
+               <div class="personitems">
+                    <label for="FirstName" class="firstname">First Name</label>
+                    <input class="textinput" type="text" name="FirstName" style="width: 120px;">
+               </div>
+               <div class="personitems">
+                    <label for="LastName" class="lastname">Last Name</label>
+                    <input class="textinput" type="text" name="LastName" style="width: 120px;">
+               </div>
+               <div class="emailitem">
+                    <label for="Email" class="email">Email</label>
+                    <input class="textinput" type="text" name="Email" style="width: 350px;"><br>
+               </div>
+          </div>
+          <div class="secondcontainer">
+               <div id="submititem">
+                    <input id="submitbuttonmany" type="submit" name="Submit">
+               </div>
+          </div>
+     </form>
+</div>
+<div id="table-container" style="transform: translateY(-20px);">
      <table id="manytablestyle">
           <tr>
                <th>ID</th>
@@ -28,7 +52,8 @@
                <td >{{row[4]}}</td>
                <td class="viewcolumn">
                     <div>
-                         <a class="viewlink" href="/showEquipment?personID={{row[0]}}">Show Current Equipment</a>
+                         <a class="viewlink" href="/showPersonInfo?personID={{row[0]}}">View Equipment</a><br>
+                         <a class="viewlink" href="/showPerson?deletePersonID={{row[0]}}">Delete Person</a><br>
                     </div>
                </td>
           </tr>

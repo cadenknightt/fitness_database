@@ -2,33 +2,39 @@
 
 {% block title %}Equipment{% endblock %}
 
-{% block header%} {{ equipmentPageTitle }} {% endblock %}
+{% block header%} {{ pageTitle }} {% endblock %}
 
 {% block content %}
 <div id="many-to-many-button-container">
      <a class="manytomanytablelinks" href="/showPerson"><i class="fas fa-user" style="padding-right:15px;"></i> Show All People</a>
      <a class="manytomanytablelinks" href="/showEquipment"><i class="fas fa-dumbbell" style="padding-right:15px;"></i> Show All Equipment</a>
 </div>
-<div class="addEquipment-container">
-     {% if otherEquipmentTypes %}
-     <form id="equipmentform">
-          <select class="equipmentdropdowninput" name="addEquipmentID">
-          <option>Choose Equipment To Add</option>
-          {% for equipment in otherEquipmentTypes %}
-          <option value='{{ equipment[0] }}'>{{equipment[1]}}</option>
-          {% endfor %}
-          </select>
-          <button type="submit" id="equipmentsubmitbutton" value="addEquipment">Add</button>
-          <input type="hidden" name="personID" value="{{ personID }}" />
+<div id="inputmany-container" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+     <h3 id="formtitle">Add Equipment</h3>
+     <form style="padding:30px;" action="{{ url_for('showEquipment') }}" method="GET">
+          <div class="firstflexcontainer">
+               <div class="equipmentitem">
+                    <label for="Equipment" class="equipment">Equipment Name</label>
+                    <input class="textinput" type="text" name="Equipment" style="width: 220px;">
+               </div>
+               <div class="purposeitem">
+                    <label for="Purpose" class="purpose">Purpose</label>
+                    <textarea class="textinput" name="Purpose" rows="5" cols="40" style="width:400px; text-wrap:wrap; height: 80px; padding: 10px;"></textarea>
+               </div>
+          </div>
+          <div class="secondcontainer">
+               <div id="submititem" style="margin-top: 30px;">
+                    <input id="submitbuttonmany" type="submit" name="Submit" value="Submit">
+               </div>
+          </div>
      </form>
-     {% endif %}
 </div>
-<div id="table-container">
+<div id="table-container" style="transform: translateY(-20px);">
      <table id="manytablestyle">
           <tr>
                <th>ID</th>
-               <th>Item</th>
-               <th style="width: 450px;">Purpose</th>
+               <th style="width: 180px;">Item</th>
+               <th>Purpose</th>
                <th>View</th>
           </tr>
           {% for row in equipmentTable %}
@@ -38,7 +44,8 @@
                <td style="text-align: left;">{{row[2]}}</td>
                <td class="viewcolumn">
                     <div>
-                         <a class="viewlink" href="/showPerson?equipmentID={{row[0]}}">Show People Using This</a>
+                         <a class="viewlink" href="/showEquipmentInfo?equipmentID={{row[0]}}">View People</a><br>
+                         <a class="viewlink" href="/showEquipment?deleteEquipmentID={{row[0]}}">Delete Equipment</a><br>
                     </div>
                </td>
           </tr>
